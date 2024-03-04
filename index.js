@@ -4,11 +4,84 @@ const fs = require('fs');
 const generateShapes = require('./lib/shapes');
 const shapeTest = require('./lib/shapes.test');
 
-// Class Notes
-// Constructors (object creation)
-// Prototypes (are how we accomplish inheritance)
-// Classes are going to handle the prototype for us, but now we know they exist
+// Inquirer Prompt
+inquirer
+  .prompt([
+    {
+      type: 'input',
+      name: 'char1',
+      message: 'Enter the first character:',
+    },
+    {
+      type: 'input',
+      name: 'char2',
+      message: 'Enter the second character:',
+    },
+    {
+      type: 'input',
+      name: 'char3',
+      message: 'Enter the third character:',
+    },
+    {
+      type: 'input',
+      name: 'textColor',
+      message: 'Enter the text color:',
+    },
+    {
+      type: 'list',
+      name: 'shape',
+      message: 'Choose a shape:',
+      choices: ['Square', 'Circle', 'Triangle'],
+    },
+    {
+      type: 'input',
+      name: 'shapeColor',
+      message: 'Enter the shape color:',
+    },
+  ])
+  
+// Generate Logo
+function generateLogo(data) {
+  const svg = generateShapes(data);
+  fs.writeFile('logo.svg', svg, (err) => {
+    if (err) throw err;
+    console.log('Generated logo.svg');
+  });
+}
 
+// Generate HTML
+function generateHTML() {
+  const html = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Logo</title>
+  </head>
+  <body>
+    <img src="logo.svg" alt="Logo" width="300" height="200">
+  </body>
+  </html>
+  `;
+  fs.writeFile('index.html', html, (err) => {
+    if (err) throw err;
+    console.log('Generated index.html');
+  });
+  };
+
+// Function to initialize
+function init () {
+  inquirer.prompt(questions).then((data) => {
+    generateLogo(data);
+    generateHTML();
+  }
+  )}
+  
+// Testing
+console.log(shapeTest());
+
+
+
+// Notes
 // Need to use inquirer to prompt the user for inquirer 8.2.4
   // Questions: 
     // Enter 3 Characters (text)
@@ -21,9 +94,3 @@ const shapeTest = require('./lib/shapes.test');
     // image is 300px x 200px
 // Need to use fs to write the file: logo.svg
 
-// Importing inquirer 8.2.4
-//const inquirer = require('inquirer')
-// Importing fs
-//const fs = require('fs')
-// Importing local module 
-//const generateMarkdown = require('./utils/generateMarkdown')
