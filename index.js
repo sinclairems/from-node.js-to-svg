@@ -2,7 +2,7 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateShapes = require('./lib/shapes');
-const shapeTest = require('./lib/shapes.test');
+const examples = require('./examples')
 
 // Inquirer Prompt
 inquirer
@@ -50,6 +50,7 @@ function generateLogo(data) {
 }
 
 // Generate HTML
+// want to send html file to ./examples
 function generateHTML() {
   const html = `
   <!DOCTYPE html>
@@ -79,6 +80,7 @@ function init () {
 // Testing
 console.log(shapeTest());
 
+module.exports = shapes;
 
 
 // Notes
