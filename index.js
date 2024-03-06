@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const {Circle, Square, Triangle} = require('./lib/shapes');
 
-class SVG{
+class SVG {
   constructor() {
     this.text = '';
     this.shape = '';
@@ -69,6 +69,10 @@ inquirer
 
 
 // Generate HTML
+fs.writeFile('index.html', '<!DOCTYPE html><html><head><title>Logo</title></head><body><img src="logo.svg" /></body></html>', (err) => {
+  if (err) throw err;
+  console.log('Generated index.html');
+});
 
 
 // Function to initialize
