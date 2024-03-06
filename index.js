@@ -46,47 +46,36 @@ inquirer
     },
   ])
   
-// Generate Logo
-function generateLogo(data) {
-  const svg = generateShapes(data);
-  fs.writeFile('logo.svg', svg, (err) => {
-    if (err) throw err;
-    console.log('Generated logo.svg');
+// Generate Logo -- send to logo.svg
+  .then((answers) => {
+    const svg = new SVG();
+    svg.setTextEl(answers.char1, answers.textColor);
+    switch (answers.shape) {
+      case 'Square':
+        svg.setShapeEl(new Square(), answers.shapeColor);
+        break;
+      case 'Circle':
+        svg.setShapeEl(new Circle(), answers.shapeColor);
+        break;
+      case 'Triangle':
+        svg.setShapeEl(new Triangle(), answers.shapeColor);
+        break;
+    }
+    fs.writeFile('logo.svg', svg.render(), (err) => {
+      if (err) throw err;
+      console.log('Generated logo.svg');
+    });
   });
-}
+
 
 // Generate HTML
-// want to send html file to ./examples
-function generateHTML() {
-  const html = `
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>Logo</title>
-  </head>
-  <body>
-    <img src="logo.svg" alt="Logo" width="300" height="200">
-  </body>
-  </html>
-  `;
-  fs.writeFile('index.html', html, (err) => {
-    if (err) throw err;
-    console.log('Generated index.html');
-  });
-  };
+
 
 // Function to initialize
-function init () {
-  inquirer.prompt(questions).then((data) => {
-    generateLogo(data);
-    generateHTML();
-  }
-  )}
-  
-// Testing
-console.log(shapeTest());
 
-module.exports = shapes;
+
+// Testing
+
 
 
 // Notes
