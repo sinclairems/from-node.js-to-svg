@@ -1,8 +1,24 @@
 // Required Modules
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateShapes = require('./lib/shapes');
-const examples = require('./examples')
+const {Circle, Square, Triangle} = require('./lib/shapes');
+
+class SVG{
+  constructor() {
+    this.text = '';
+    this.shape = '';
+  }
+  render() {
+    return '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="300" height="200">' + this.text + this.shape + '</svg>';
+  }
+  setTextEl(text, color) {
+    this.textEl = `<text x="150" y="125" font-size="60" text-anchor="middle" fill="${color}">${text}</text>`;
+  }
+  setShapeEl(shape, color) {
+    this.shapeEl = shape;
+    this.shapeEl.setColor(color);
+  }
+}
 
 // Inquirer Prompt
 inquirer
@@ -10,17 +26,7 @@ inquirer
     {
       type: 'input',
       name: 'char1',
-      message: 'Enter the first character:',
-    },
-    {
-      type: 'input',
-      name: 'char2',
-      message: 'Enter the second character:',
-    },
-    {
-      type: 'input',
-      name: 'char3',
-      message: 'Enter the third character:',
+      message: 'Enter up to 3 characters:',
     },
     {
       type: 'input',
