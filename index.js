@@ -65,33 +65,17 @@ inquirer
       if (err) throw err;
       console.log('Generated logo.svg');
     });
+    fs.writeFile('index.html', 
+    `<!DOCTYPE html>
+      <html>
+      <head><title>Logo</title></head>
+      <body>
+        <img src="logo.svg" />
+      </body>
+      </html>`, (err) => {
+      if (err) throw err;
+      console.log('Generated index.html');
   });
-
-
-// Generate HTML
-fs.writeFile('index.html', '<!DOCTYPE html><html><head><title>Logo</title></head><body><img src="logo.svg" /></body></html>', (err) => {
-  if (err) throw err;
-  console.log('Generated index.html');
 });
 
-
-// Function to initialize
-
-
-// Testing
-
-
-
-// Notes
-// Need to use inquirer to prompt the user for inquirer 8.2.4
-  // Questions: 
-    // Enter 3 Characters (text)
-    // Enter text color (keyword or hex code accepted) -- need a program/module to read this
-    // Choose shape (list of shapes) 
-    // Enter shape color (keyword or hex code accepted) -- need a program/module to read this
-    // then logo.svg file will be created
-    // console.log('Generated logo.svg')
-    // create index.html file with the logo.svg file
-    // image is 300px x 200px
-// Need to use fs to write the file: logo.svg
 
