@@ -14,11 +14,10 @@ class SVG {
   setTextEl(text, color) {
     this.textEl = `<text x="150" y="125" font-size="60" text-anchor="middle" fill="${color}">${text}</text>`;
   }
-  setShapeEl(shape, color) {
-    this.shapeEl = shape;
-    this.shapeEl.setColor(color);
+  setShapeEl(shape) {
+    this.shapeEl = shape.render();
   }
-}
+};
 
 // Inquirer Prompt
 inquirer
@@ -47,20 +46,22 @@ inquirer
   ])
   
 // Generate Logo -- send to logo.svg
-  .then((answers) => {
-    const svg = new SVG();
-    svg.setTextEl(answers.char1, answers.textColor);
-    switch (answers.shape) {
-      case 'Square':
-        svg.setShapeEl(new Square(), answers.shapeColor);
-        break;
-      case 'Circle':
-        svg.setShapeEl(new Circle(), answers.shapeColor);
-        break;
-      case 'Triangle':
-        svg.setShapeEl(new Triangle(), answers.shapeColor);
-        break;
-    }
+  const init = () => {  
+    inquirer.prompt(questions)
+      .then((answers) => {
+        const svg = new SVG();
+        svg.setTextEl(answers.char1, answers.textColor);
+        switch (answers.shape) {
+          case 'Square':
+            svg.setShapeEl(new Square(), answers.shapeColor);
+            break;
+          case 'Circle':
+            svg.setShapeEl(new Circle(), answers.shapeColor);
+            break;
+          case 'Triangle':
+            svg.setShapeEl(new Triangle(), answers.shapeColor);
+            break;
+        }
     fs.writeFile('logo.svg', svg.render(), (err) => {
       if (err) throw err;
       console.log('Generated logo.svg');
@@ -77,5 +78,4 @@ inquirer
       console.log('Generated index.html');
   });
 });
-
-
+}
