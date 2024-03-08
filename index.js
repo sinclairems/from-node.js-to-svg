@@ -9,10 +9,13 @@ class SVG {
     this.shape = '';
   }
   render() {
-    return '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="300" height="200">' + this.text + this.shape + '</svg>';
+    return `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="300" height="200">
+    ${this.text}
+    ${this.shape}
+    </svg>`;
   }
-  setTextEl(text, color) {
-    this.textEl = `<text x="150" y="125" font-size="60" text-anchor="middle" fill="${color}">${text}</text>`;
+  setTextEl(text, textColor) {
+    this.textEl = `<text x="150" y="125" font-size="60" text-anchor="middle" fill="${textColor}">${text}</text>`;
   }
   setShapeEl(shape) {
     this.shapeEl = shape.render();
@@ -24,7 +27,7 @@ inquirer
   .prompt([
     {
       type: 'input',
-      name: 'char1',
+      name: 'text',
       message: 'Enter up to 3 characters:',
     },
     {
@@ -46,36 +49,34 @@ inquirer
   ])
   
 // Generate Logo -- send to logo.svg
-  const init = () => {  
-    inquirer.prompt(questions)
-      .then((answers) => {
-        const svg = new SVG();
-        svg.setTextEl(answers.char1, answers.textColor);
-        switch (answers.shape) {
-          case 'Square':
-            svg.setShapeEl(new Square(), answers.shapeColor);
-            break;
-          case 'Circle':
-            svg.setShapeEl(new Circle(), answers.shapeColor);
-            break;
-          case 'Triangle':
-            svg.setShapeEl(new Triangle(), answers.shapeColor);
-            break;
-        }
-    fs.writeFile('logo.svg', svg.render(), (err) => {
-      if (err) throw err;
-      console.log('Generated logo.svg');
-    });
-    fs.writeFile('index.html', 
-    `<!DOCTYPE html>
-      <html>
-      <head><title>Logo</title></head>
-      <body>
-        <img src="logo.svg" />
-      </body>
-      </html>`, (err) => {
-      if (err) throw err;
-      console.log('Generated index.html');
-  });
+.then((answers) => {
+  const svg = new SVG();
+  svg.setTextEl(answers.text, answers.textColor);
+  switch (answers.shape) {
+    case 'Square':
+      svg.setShapeEl(new Square(), answers.shapeColor);
+      break;
+    case 'Circle':
+      svg.setShapeEl(new Circle(), answers.shapeColor);
+      break;
+    case 'Triangle':
+      svg.setShapeEl(new Triangle(), answers.shapeColor);
+      break;
+  }
+fs.writeFile('logo.svg', svg.render(), (err) => {
+  if (err) throw err;
+  console.log('Generated logo.svg');
 });
-}
+fs.writeFile('index.html', 
+`<!DOCTYPE html>
+  <html>
+  <head><title>Logo</title></head>
+  <body>
+    <img src="logo.svg" />
+  </body>
+  </html>`, (err) => {
+  if (err) throw err;
+  console.log('Generated index.html');
+});
+});
+
